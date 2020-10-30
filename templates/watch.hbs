@@ -13,13 +13,16 @@
 </head>
 
 <body>
-<div class="container">
-  <div class="row">
-    <div class="col">     
-        <video controls preload="auto" class="video-js vjs-fill">
-            <source src="/files/{{file_path}}" type="video/mp4">    
-        </video>        
-    </div></div></div>
+    <div class="container">
+        <h1>Watch {{file_name}}</h1>
+        <div class="row">
+            <div class="col">
+                <video controls preload="auto" class="video-js vjs-fill">
+                    <source src="/files/{{file_path}}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
     <script src="/static/assets/jquery.slim.js"></script>
     <script src="/static/assets/bootstrap.bundle.js"></script>
     <script src="/static/assets/video.js"></script>

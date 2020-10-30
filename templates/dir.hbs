@@ -14,23 +14,23 @@
     <div class="container">
 
         <h1>Directory {{dir}}</h1>
-        
+
         {{#each subdirs}}
         <p><a href="/dir/{{../dir}}/{{this}}">
-            <svg class="bi" width="32" height="32" fill="currentColor">
-                <use xlink:href="/static/assets/bootstrap-icons.svg#folder"/>
-            </svg>
-            {{this}}
-        </a></p>
+                <svg class="bi" width="32" height="32" fill="currentColor">
+                    <use xlink:href="/static/assets/bootstrap-icons.svg#folder" />
+                </svg>
+                {{this}}
+            </a></p>
         {{/each}}
 
         {{#each files}}
         <p><a href="/watch/{{../dir}}/{{this}}">
-            <svg class="bi" width="32" height="32" fill="currentColor">
-                <use xlink:href="/static/assets/bootstrap-icons.svg#file-earmark"/>
-            </svg>
-            {{this}}
-        </a></p>
+                <svg class="bi" width="32" height="32" fill="currentColor">
+                    <use xlink:href="/static/assets/bootstrap-icons.svg#file-earmark" />
+                </svg>
+                {{this}}
+            </a></p>
         {{/each}}
     </div>
     <script src="/static/assets/jquery.slim.js"></script>
