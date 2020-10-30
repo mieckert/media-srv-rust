@@ -1,0 +1,16 @@
+{
+  "name": "client-src",
+  "version": "1.0.0",
+  "description": "Client (browser) side dependencies and source code",
+  "browser": "main",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Eckert <mi.eckert@gmx.de>",
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "bootstrap-icons": "^1.0.0",
+    "jquery": "^3.5.1",
+    "video.js": "^7.10.1"
+  }
+}

@@ -1,0 +1,4 @@
+/target
+/client-src/node_modules
+*~
+/static/assets

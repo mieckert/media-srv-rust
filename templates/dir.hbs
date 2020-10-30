@@ -1,0 +1,40 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/static/bootstrap-4.5.3/css/bootstrap.min.css">
+    <title>Index</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Directory {{dir}}</h1>
+        
+        {{#each subdirs}}
+        <p><a href="/dir/{{../dir}}/{{this}}">
+            <svg class="bi" width="32" height="32" fill="currentColor">
+                <use xlink:href="/static/bootstrap-icons-1.0.0/bootstrap-icons.svg#folder"/>
+            </svg>
+            {{this}}
+        </a></p>
+        {{/each}}
+
+        {{#each files}}
+        <p><a href="/watch/{{../dir}}/{{this}}">
+            <svg class="bi" width="32" height="32" fill="currentColor">
+                <use xlink:href="/static/bootstrap-icons-1.0.0/bootstrap-icons.svg#file-earmark"/>
+            </svg>
+            {{this}}
+        </a></p>
+        {{/each}}
+    </div>
+    <script src="/static/jquery-3.5.1/jquery-3.5.1.slim.min.js"></script>
+    <script src="/static/bootstrap-4.5.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
