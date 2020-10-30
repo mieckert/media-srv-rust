@@ -1,5 +1,5 @@
 [development]
-root_dir = "D:/"
+root_dir = "/"
 base_url = "http://0.0.0.0:8000"
 address = "0.0.0.0"
 port = 8000
