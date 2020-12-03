@@ -15,21 +15,12 @@
 
         <h1>Directory {{dir}}</h1>
 
-        {{#each subdirs}}
-        <p><a href="/dir/{{../dir}}/{{this}}">
+        {{#each entries}}
+        <p><a href="{{link}}">
                 <svg class="bi" width="32" height="32" fill="currentColor">
-                    <use xlink:href="/static/assets/bootstrap-icons.svg#folder" />
+                    <use xlink:href="/static/assets/bootstrap-icons.svg#{{icon}}" />
                 </svg>
-                {{this}}
-            </a></p>
-        {{/each}}
-
-        {{#each files}}
-        <p><a href="/watch/{{../dir}}/{{this}}">
-                <svg class="bi" width="32" height="32" fill="currentColor">
-                    <use xlink:href="/static/assets/bootstrap-icons.svg#file-earmark" />
-                </svg>
-                {{this}}
+                {{label}}
             </a></p>
         {{/each}}
     </div>

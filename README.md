@@ -12,7 +12,15 @@ serious settings.
 
 ## Installing/Running
 
-Edit `Rocket.toml` to set your root directory, port, and IP.  
+Edit `Rocket.toml` to set your port, and IP.  Create a `mount.toml`
+maps mount points (i.e., prefixes of the URLs exposed) to 
+local directories.  Example `mount.toml`:
+
+```
+"u" = "/Users/auser"
+"desk/top" = "/Users/auser/Desktop/Desktop"
+```
+
 Then simply run `cargo build` (it will install the needed JavaScript
 and CSS dependencies as well) and `cargo run`.
 
