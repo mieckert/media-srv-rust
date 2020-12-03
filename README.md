@@ -31,5 +31,5 @@ and CSS dependencies as well) and `cargo run`.
 - [ ] Support for other media formats (images, PDFs, etc.)      
 - [ ] Sorting of files and directories (alphabetical etc.)
 - [ ] Nicer layout
-- [ ] Root path on Windows (how can you serve multiple drives, e.g.,  `c:\` and `d:\`); possibly also for other systems to specify multiple roots
+- [X] Root path on Windows (how can you serve multiple drives, e.g.,  `c:\` and `d:\`); possibly also for other systems to specify multiple roots
 - [ ] Refactor code for serving byte ranges (Ranged_File) and possibly extract it into its own crate
