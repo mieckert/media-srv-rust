@@ -3,7 +3,7 @@ use std::fs;
 use std::path::Path;
 use serde::Serialize;
 
-const VIDEO_EXTENSIONS: &'static [&'static str] = &["mp4"];
+const VIDEO_EXTENSIONS: &'static [&'static str] = &["mp4", "webm", "mpg", "mpeg", "mov", "3gp", "mkv", "flv"];
 const AUDIO_EXTENSIONS: &'static [&'static str] = &["mp3"];
 const IMAGE_EXTENSIONS: &'static [&'static str] = &["jpg", "jpeg", "png", "gif", "bmp"];
 const PDF_EXTENSIONS: &'static [&'static str] = &["pdf"];

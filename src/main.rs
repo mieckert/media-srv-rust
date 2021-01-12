@@ -112,16 +112,23 @@ fn dir(dir: PathBuf, cfg: State<Config>) -> Result<Template, status::Custom<Stri
             Status::InternalServerError,
             format!("Internal Server Error: {:?}", e),
         )),
-        Ok(mut entries) => {
+        Ok(entries) => {
             let dir = dir.to_string_lossy().into_owned();
+
+            let mut entries: Vec<Entry> = entries.into_iter().filter(|entry| {
+                match entry.filetype {
+                    FileType::Directory => true, 
+                    FileType::Video => true,
+                    _ => false
+                }
+            }).collect();
 
             entries.sort_by(|a,b| {
                 match (&a.filetype, &b.filetype) {
                     (FileType::Directory, FileType::Directory) => a.name.cmp(&b.name),
                     (FileType::Directory, _) => std::cmp::Ordering::Less,
                     (_, FileType::Directory) => std::cmp::Ordering::Greater,
-                    (_,_) => a.name.cmp(&b.name)
-                    
+                    (_,_) => a.name.cmp(&b.name)                    
                 }
             });
 
