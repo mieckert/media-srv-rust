@@ -16,11 +16,11 @@
         <h1>Directory {{dir}}</h1>
 
         {{#each entries}}
-        <p><a href="{{link}}">
+        <p><a href="{{link_url}}">
                 <svg class="bi" width="32" height="32" fill="currentColor">
                     <use xlink:href="/static/assets/bootstrap-icons.svg#{{icon}}" />
                 </svg>
-                {{label}}
+                {{name}}
             </a></p>
         {{/each}}
     </div>

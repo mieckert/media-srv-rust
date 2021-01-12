@@ -19,8 +19,12 @@ use serde::Serialize;
 mod config;
 use config::{Config, ConfigFairing};
 mod dir;
+use dir::Entry;
+use dir::FileType;
+use dir::DIRECTORY_ICON;
 mod ranged_file;
 use ranged_file::*;
+mod to_url;
 
 #[get("/")]
 fn index() -> Redirect {
@@ -30,14 +34,7 @@ fn index() -> Redirect {
 #[derive(Serialize)]
 struct DirHbsContext {
     dir: String,
-    entries: Vec<DirHbsContextEntry>,
-}
-
-#[derive(Serialize)]
-struct DirHbsContextEntry {
-    label: String,
-    link: String,
-    icon: String,
+    entries: Vec<Entry>,
 }
 
 #[get("/dir")]
@@ -55,10 +52,12 @@ fn dir_root(cfg: State<Config>) -> Result<Template, status::Custom<String>> {
     let entries = cfg
         .mounts
         .iter()
-        .map(|m| DirHbsContextEntry {
-            label: m.mount_point.to_string_lossy().into_owned(),
-            link: format!("/dir/{}", &m.mount_point.to_string_lossy()),
-            icon: String::from("folder"),
+        .map(|m| Entry {
+            name: m.mount_point.to_string_lossy().into_owned(),
+            link_url: format!("/dir/{}", &m.mount_point.to_string_lossy()),
+            download_url: "".to_string(),
+            filetype: FileType::Directory,
+            icon: DIRECTORY_ICON
         })
         .collect();
 
@@ -104,7 +103,7 @@ fn real_dir(dir: &PathBuf, cfg: State<Config>) -> Result<PathBuf, status::Custom
 fn dir(dir: PathBuf, cfg: State<Config>) -> Result<Template, status::Custom<String>> {
     let real_dir = real_dir(&dir, cfg)?;
 
-    match dir::read_dir(real_dir) {
+    match dir::read_dir(real_dir, dir.clone()) {
         Err(e) if e.kind() == io::ErrorKind::NotFound => Err(status::Custom(
             Status::NotFound,
             "Directory not found".to_string(),
@@ -113,22 +112,19 @@ fn dir(dir: PathBuf, cfg: State<Config>) -> Result<Template, status::Custom<Stri
             Status::InternalServerError,
             format!("Internal Server Error: {:?}", e),
         )),
-        Ok((subdirs, files)) => {
+        Ok(mut entries) => {
             let dir = dir.to_string_lossy().into_owned();
 
-            let entries = subdirs
-                .into_iter()
-                .map(|d| DirHbsContextEntry {
-                    link: format!("/dir/{}/{}", &dir, &d),
-                    label: d,
-                    icon: String::from("folder"),
-                })
-                .chain(files.into_iter().map(|f| DirHbsContextEntry {
-                    link: format!("/watch/{}/{}", &dir, &f),
-                    label: f,
-                    icon: String::from("file-earmark"),
-                }))
-                .collect();
+            entries.sort_by(|a,b| {
+                match (&a.filetype, &b.filetype) {
+                    (FileType::Directory, FileType::Directory) => a.name.cmp(&b.name),
+                    (FileType::Directory, _) => std::cmp::Ordering::Less,
+                    (_, FileType::Directory) => std::cmp::Ordering::Greater,
+                    (_,_) => a.name.cmp(&b.name)
+                    
+                }
+            });
+
             let context = DirHbsContext { dir, entries };
             Ok(Template::render("dir", &context))
         }
