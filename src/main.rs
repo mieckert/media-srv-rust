@@ -7,6 +7,9 @@ use std::path::PathBuf;
 #[macro_use]
 extern crate rocket;
 
+#[macro_use]
+extern crate handlebars;
+
 use rocket::http::Status;
 use rocket::response::status;
 use rocket::response::Redirect;
@@ -163,12 +166,22 @@ fn files(file_path: PathBuf, cfg: State<Config>) -> Result<RangedFile, status::C
     Ok(RangedFile(real_path.into_boxed_path()))
 }
 
+handlebars_helper!(hbs_helper_is_video: |filetype: str| {
+    //println!("hbs_helper_is_video called with '{}'", &filetype);
+    filetype == "Video"
+});
+
 fn main() {
     let r = rocket::ignite();
     println!("Rocket launch config: {:?}", r.config());
+    
+    let template_fairing = Template::custom(|engines| {
+        engines.handlebars.register_helper("is-video", Box::new(hbs_helper_is_video));
+    });
 
     r.attach(ConfigFairing::new())
-        .attach(Template::fairing())
+        //.attach(Template::fairing())
+        .attach(template_fairing)
         .mount("/static", StaticFiles::from("static"))
         .mount("/", routes![index, dir_root, dir, watch, files])
         //.register(catchers![not_found, bad_request])

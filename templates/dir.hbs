@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="/static/assets/bootstrap.css">
-    <title>Index</title>
+    <title>{{dir}}</title>
 </head>
 
 <body>
@@ -16,16 +16,49 @@
         <h1>Directory {{dir}}</h1>
 
         {{#each entries}}
-        <p><a href="{{link_url}}">
-                <svg class="bi" width="32" height="32" fill="currentColor">
-                    <use xlink:href="/static/assets/bootstrap-icons.svg#{{icon}}" />
-                </svg>
+        <p>
+            <svg class="bi" width="32" height="32" fill="currentColor">
+                <use xlink:href="/static/assets/bootstrap-icons.svg#{{icon}}" />
+            </svg>
+            <a href="{{link_url}}">
                 {{name}}
-            </a></p>
+            </a>
+            &nbsp;            
+            {{#if (is-video filetype)}}
+                <a href="{{download_url}}" class="download_a">
+                    <svg class="bi" width="20" height="20" fill="currentColor">
+                        <use xlink:href="/static/assets/bootstrap-icons.svg#download" />
+                    </svg>                    
+                </a>            
+                <a href="#" class="vlc_a">
+                    <svg class="bi" width="20" height="20" fill="currentColor">
+                        <use xlink:href="/static/assets/bootstrap-icons.svg#cone-striped" />                                                        
+                    </svg>
+                </a>
+                    
+            {{/if}}            
+        </p>
         {{/each}}
     </div>
     <script src="/static/assets/jquery.slim.js"></script>
     <script src="/static/assets/bootstrap.bundle.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {             
+            var vlc_els = document.getElementsByClassName("vlc_a");
+            for(var i=0; i<vlc_els.length; i++) {
+                var vlc_el = vlc_els[i];
+                
+                var download_els = vlc_el.parentElement.getElementsByClassName("download_a");
+                if(download_els.length != 1) continue;
+                var download_href = download_els[0].getAttribute("href");
+
+                var url = encodeURIComponent(window.location.origin + download_href);
+
+                var vlc_url = "vlc-x-callback://x-callback-url/stream?url=" + url;
+                vlc_el.setAttribute("href", vlc_url);
+            }
+        });    
+    </script>
 </body>
 
 </html>
