@@ -54,9 +54,13 @@
 
                 var url = encodeURIComponent(window.location.origin + download_href);
 
+                // TODO: check if we're in chrome or safari (for iOS) and
+                // adapt return url accordingly.
+                var returnUrl = "googlechrome://";
+
                 var vlc_url = "vlc-x-callback://x-callback-url/stream?url=" + url + 
-                    "&x-success=" + encodeURIComponent(window.location.href) +
-                    "&x-error=" + encodeURIComponent(window.location.href);
+                    "&x-success=" + encodeURIComponent(returnUrl) +
+                    "&x-error=" + encodeURIComponent(returnUrl);
                 vlc_el.setAttribute("href", vlc_url);
             }
         });    
