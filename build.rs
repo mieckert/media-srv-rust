@@ -20,7 +20,7 @@ fn main() {
     let mut package_json = PathBuf::from(&CLIENT_SRC_DIR);
     package_json.push("package.json");
     println!("cargo:rerun-if-changed={}", &package_json.to_string_lossy());
-
+/*
     let output = Command::new("npm")
         .args(&["install"])
         .current_dir(Path::new(&CLIENT_SRC_DIR))
@@ -29,7 +29,7 @@ fn main() {
     if !output.status.success() {
         panic!("Error during npm install");
     }
-
+*/
     let nm_dir = format!("{}node_modules/", CLIENT_SRC_DIR);
 
     for file in &NM_FILES_TO_COPY {
